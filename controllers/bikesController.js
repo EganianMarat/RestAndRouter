@@ -1,5 +1,3 @@
-const fs = require("fs");
-const dataBase = './src/db/bikes.json';
 const bikeController = {}
 
 bikeController.createCar = (req, res) => {
@@ -20,7 +18,7 @@ bikeController.createCar = (req, res) => {
 bikeController.getCars = (req, res) => {
 	if(fs.existsSync(dataBase)) {	
 		let dataOld = JSON.parse(fs.readFileSync(dataBase));
-		res.send(`Thise is ${JSON.stringify(dataOld[urlParams[2]])} all bikes data`);
+		res.send(`Thise is ${JSON.stringify(dataOld)} all bikes data`);
 	}
 	else {
 		res.send(`We have no bikes`);
