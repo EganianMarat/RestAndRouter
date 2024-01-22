@@ -1,3 +1,5 @@
+const fs = require("fs");
+const dataBase = './db/bikes.json';
 const bikeController = {}
 
 bikeController.createCar = (req, res) => {

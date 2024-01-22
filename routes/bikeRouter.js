@@ -1,6 +1,4 @@
 const express = require('express');
-const fs = require("fs");
-const dataBase = './db/bikes.json';
 const app = express();
 const validation = require("./../validation/validateOrderType") // օրինակ
 const bikeController = require("./../controllers/bikesController") // օրինակ
