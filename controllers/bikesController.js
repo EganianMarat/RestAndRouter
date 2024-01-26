@@ -18,6 +18,7 @@ bikeController.createCar = (req, res) => {
 };
 
 bikeController.getCars = (req, res) => {
+	//console.log(req.cookies.token);
 	if(fs.existsSync(dataBase)) {	
 		let dataOld = JSON.parse(fs.readFileSync(dataBase));
 		res.send(`Thise is ${JSON.stringify(dataOld)} all bikes data`);

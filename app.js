@@ -2,26 +2,27 @@ const createError = require('http-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const authRoutes = require("./routes/authRouter")
 const carRouter = require('./routes/carRouter');
 const bikeRouter = require('./routes/bikeRouter');
+const cookieParser = require('cookie-parser');
+const sekretKeyCookie = 'npowuepfw52w65tybvUut!fdg';
 
 const app = express();
 
 app.use(bodyParser.json());
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("view engine", "hbs");
+app.set('views', "./views");
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser(sekretKeyCookie))
 
 app.use("/", authRoutes)
 app.use('/cars', carRouter);
