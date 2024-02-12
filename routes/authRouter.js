@@ -1,14 +1,12 @@
-const express = require('express');
-const fs = require("fs");
-const dataBase = './db/auth.json';
-const app = express();
-const {createUser, login} = require("./../controllers/authController");
-const {registrationValidator, loginValidator} = require("./../validation/authValidate")
+import {Router} from 'express';
+import fs from "fs";
+import {createUser, login} from "./../controllers/authController.js";
+import  {registrationValidator, loginValidator} from "./../validation/authValidate.js"
+const router = Router();
 
-const router = express.Router();
 
 
 router.post("/registration", registrationValidator, createUser)
 router.post("/login", loginValidator, login)
 
-module.exports = router;
+export default router;

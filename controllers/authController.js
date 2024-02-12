@@ -1,26 +1,20 @@
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
+import  bcrypt from "bcrypt";
+import  fs from "fs";
+import  jwt from "jsonwebtoken";
+import  moment from "moment";
 const jwtKey = "loginKye";
 const saltRounds = 10;
 //const salt = '$2b$10$dUsCq5kmu2z9SFZawy56ie'
-const dataBase = './db/users.json';
+import  mongoose from 'mongoose';
+import User from './../models/usersSchema.js';
 
-createUser = async (req, res) => {
-	let dataNew = req.reqM;	
-	if(!dataNew.length) dataNew.length = 0;
-	++dataNew.length;
-	dataNew[req.body.username] = {
-		id: dataNew.length - 1,
-		createTime: moment.utc().format("YYYY-MM-DD HH:mm:ss"),
-		...req.body
-	}	
+const createUser = async (req, res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
 	const hashPassword = bcrypt.hashSync(req.body.password, salt);
-	dataNew[req.body.username].password = hashPassword;
-	delete dataNew[req.body.username].username;
-	fs.writeFileSync(dataBase, JSON.stringify(dataNew));
+	req.body.password = hashPassword;
+	req.body.createTime = moment.utc().format("YYYY-MM-DD HH:mm:ss");
+	const user = await User.create(req.body);
+	user.save();
 	res.status(200).render('login.hbs', { 
 		trtrotituy: 22,
 		title: `Ползователь ${req.body.name} создан`,
@@ -28,24 +22,20 @@ createUser = async (req, res) => {
 		email: req.body.email,
 		phone: req.body.phone
 	});
-	//res.status(200).send('');
 };
 
-login = async (req, res) => {
+const login = async (req, res) => {
 	let dataNew = req.reqM;		
 	const token = jwt.sign({
-		id: dataNew[req.body.username].id,
+		id: dataNew.id,
 		username: req.body.username,
-		name: dataNew[req.body.username].name
+		name: dataNew.name
 	}, jwtKey, {
-		expiresIn: "36000"
+		expiresIn: 36000
 	});
 	res.cookie('token', token);
 	res.status(200).json({status: 1, token});	
 };
 
 
-module.exports = {
-    createUser,
-    login
-}
+export {createUser, login}

@@ -2,6 +2,7 @@
   "name": "nodejs3",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "node ./bin/www",
     "start:dem": "nodemon ./bin/www"
@@ -16,6 +17,8 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
     "morgan": "~1.9.1",
     "nodemon": "^3.0.3"
   }

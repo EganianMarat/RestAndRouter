@@ -1,39 +1,43 @@
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const dataBase = './db/users.json';
+import bcrypt from "bcrypt";
+import fs from "fs";
+import mongoose from 'mongoose';
+import User from './../models/usersSchema.js';
 
-const registrationValidator = (req, res, next) => {	
-	const LoginHTML = 'login';
-	let dataNew = {};
-	if(fs.existsSync(dataBase)) dataNew = JSON.parse(fs.readFileSync(dataBase));
-	let mist = '';
-	if(dataNew[req.body.username]) mist = `Username ${req.body.username} is taken`;	
-	if(!mist) {		
-		req.reqM = dataNew; 
-		next();
+const registrationValidator = async (req, res, next) => {	
+	try {
+		User.findOne({username: req.body.username}).then((user) => {
+			let mist = '';
+			if(user) mist = `Username ${req.body.username} is taken`;	
+			if(!mist) {	
+				next();
+			}
+			else {
+				res.status(401).send(mist);
+			}
+		});
+		
 	}
-	else {
-		res.status(401).send(mist);
-	}
+	catch (error) {
+      console.log(error);
+    }
 }
 const loginValidator = (req, res, next) => {
-	if(fs.existsSync(dataBase)) {
-		dataNew = JSON.parse(fs.readFileSync(dataBase));
+	try {
+		User.findOne({username: req.body.username}).then((user) => {
+			let mist = '';
+			if(!user) mist = `There is no ${req.body.username} user`;	
+			if(!mist) {		
+				req.reqM = user; 
+				next();
+			}
+			else {
+				res.status(401).send(mist);
+			}
+		});
+		
 	}
-	else {
-		res.status(401).send("There is not so user");
-	}
-	if(dataNew[req.body.username]) {		
-		if(bcrypt.compareSync(req.body.password, dataNew[req.body.username]['password'])) {	
-			req.reqM = dataNew; 
-			next();
-		}
-		else {
-			res.status(401).send("Invalide user or password");
-		}
-	}
-	else {
-		res.status(401).send("There is not so user");
-	}
+	catch (error) {
+      console.log(error);
+    }
 }
-module.exports = {registrationValidator, loginValidator};
+export {registrationValidator, loginValidator};

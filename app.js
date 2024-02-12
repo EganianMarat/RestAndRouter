@@ -1,16 +1,29 @@
-const createError = require('http-errors');
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const logger = require('morgan');
+import createError from 'http-errors';
+import express from 'express';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 
-const authRoutes = require("./routes/authRouter")
-const carRouter = require('./routes/carRouter');
-const bikeRouter = require('./routes/bikeRouter');
-const cookieParser = require('cookie-parser');
+import authRoutes from "./routes/authRouter.js"
+import carRouter from './routes/carRouter.js';
+import bikeRouter from './routes/bikeRouter.js';
+
 const sekretKeyCookie = 'npowuepfw52w65tybvUut!fdg';
 
 const app = express();
+const url = "mongodb://myUserAdmin:abc123@localhost:27017/Cars&Bikes?authSource=admin"; 
+
+
+  mongoose.connect(url).then(()=> {
+  console.log("Подключение установлено");
+  }).catch(err => console.log(err));
+
+  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+
+
+
+
 
 app.use(bodyParser.json());
 
@@ -21,7 +34,6 @@ app.set('views', "./views");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(sekretKeyCookie))
 
 app.use("/", authRoutes)
@@ -45,4 +57,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
