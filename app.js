@@ -9,7 +9,10 @@ import authRoutes from "./routes/authRouter.js"
 import carRouter from './routes/carRouter.js';
 import bikeRouter from './routes/bikeRouter.js';
 
+import {Readable} from 'stream';
+
 const sekretKeyCookie = 'npowuepfw52w65tybvUut!fdg';
+const rs = Readable();
 
 const app = express();
 const url = "mongodb://myUserAdmin:abc123@localhost:27017/Cars&Bikes?authSource=admin"; 
@@ -35,7 +38,6 @@ app.set('views', "./views");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(sekretKeyCookie))
-
 app.use("/", authRoutes)
 app.use('/cars', carRouter);
 app.use('/bikes', bikeRouter);

@@ -33,7 +33,8 @@ const createBike = async (req, res) => {
 	console.log(req.decode);
 	req.body.user = req.decode.id;
 	req.body.slat = await checkSlat(req.body.slat, 'bike');
-	const bike = await Bike.create(req.body);
+	const bike = await Bike.create(req.body);	
+	bike.save();
 	if(bike) res.send(`Bike ${req.body.name} is create`);
 };
 

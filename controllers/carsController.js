@@ -34,9 +34,18 @@ const createCar = async (req, res) => {
 	req.body.user = req.decode.id;
 	req.body.slat = await checkSlat(req.body.slat, 'car');
 	const car = await Car.create(req.body);
+	car.save();
 	if (car) res.send(`Car ${req.body.name} is create`);
 };
 
+const createForm = async (req, res) => {
+	res.status(200).render('createElement.hbs', {
+		element: 'cars',
+		title: `Создание машины`,
+		text: `Заполните все поля формы`,
+		elements: ['slat']
+	});
+};
 const getCars = async (req, res) => {
 	try {
 		let filter = false;
@@ -115,5 +124,5 @@ const deleteCar = async (req, res) => {
       console.log(error);
     }	
 };
-const carController = {createCar, getCars, updateCar, deleteCar};
+const carController = {createCar, createForm, getCars, updateCar, deleteCar};
 export default carController;

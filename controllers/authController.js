@@ -38,4 +38,15 @@ const login = async (req, res) => {
 };
 
 
-export {createUser, login}
+
+const loginForm = (req, res) => {
+	res.status(200).render('nologin.hbs', { 
+		trtrotituy: 22,
+		title: `Ползователь ${req.body.name} создан`,
+		text: `Процесс создания ползователя ${req.body.name} прошел успешно`,
+		email: req.body.email,
+		phone: req.body.phone
+	});
+};
+
+export {createUser, login, loginForm}

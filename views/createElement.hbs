@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<html>
+	<header>
+	<title>{{title}}</title>
+	</header>
+	<body>
+		<div>{{text}}</div>
+		<div>
+			<form action="/{{element}}" method="post" enctype="multipart/form-data">
+				Name: <input type="text" name="name" value="" />
+				model: <input type="text" name="model" value="" />
+				year: <input type="text" name="year" value="" />
+				price: <input type="text" name="price" value="" />
+				currency: <select type="text" name="model"><option value="dollar">Dollar</option><option value="dram">Dram</option><option value="euro">Euro</option><option value="rub">Rub</option></select>
+			{{#if elements}}
+				{{#each elements}}
+					{{this}}: <input type="text" name="{{this}}" value="" />
+				{{/each}}
+			{{/if}}
+			<input type="file" name="image[12][]" multiple>
+			<input type="submit" value="Submit" />
+			</form>
+		</div>
+	</body>
+</html>

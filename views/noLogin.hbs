@@ -5,6 +5,12 @@
 	<title>{{title}}</title>
 	</header>
 	<body>
-		<div>{{text}}</div>
+		<div>
+			<form action="/login" method="post">
+				Username: <input type="text" name="username" value="" />
+				Password: <input type="password" name="password" value="" />
+			<input type="submit" value="Submit" />
+			</form>
+		</div>
 	</body>
 </html>

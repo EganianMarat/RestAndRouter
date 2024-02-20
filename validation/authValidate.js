@@ -25,7 +25,8 @@ const loginValidator = (req, res, next) => {
 	try {
 		User.findOne({username: req.body.username}).then((user) => {
 			let mist = '';
-			if(!user) mist = `There is no ${req.body.username} user`;	
+			if(!user) mist = `There is no ${req.body.username} user`;
+			else if(!bcrypt.compareSync(req.body.password, user.password)) mist = `There is wrong password`;
 			if(!mist) {		
 				req.reqM = user; 
 				next();
